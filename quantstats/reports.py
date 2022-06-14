@@ -264,8 +264,8 @@ def html(returns, benchmark=None, rf=0., grayscale=False,
 
 
 def full(returns, benchmark=None, rf=0., grayscale=False,
-         figsize=(8, 5), display=True, compounded=True,
-         periods_per_year=252, match_dates=False):
+         figsize=(14, 10), display=True, compounded=True, rolling_period=30, 
+         periods_per_year=365, match_dates=True):
 
     # prepare timeseries
     returns = _utils._prepare_returns(returns)
@@ -285,7 +285,7 @@ def full(returns, benchmark=None, rf=0., grayscale=False,
 
     if _utils._in_notebook():
         iDisplay(iHTML('<h4>Performance Metrics</h4>'))
-        iDisplay(metrics(returns=returns, benchmark=benchmark,
+        iDisplay(qs.reports.metrics(returns=returns, benchmark=benchmark,
                          rf=rf, display=display, mode='full',
                          compounded=compounded,
                          periods_per_year=periods_per_year,
@@ -299,7 +299,7 @@ def full(returns, benchmark=None, rf=0., grayscale=False,
         iDisplay(iHTML('<h4>Strategy Visualization</h4>'))
     else:
         print('[Performance Metrics]\n')
-        metrics(returns=returns, benchmark=benchmark,
+        qs.reports.metrics(returns=returns, benchmark=benchmark,
                 rf=rf, display=display, mode='full',
                 compounded=compounded,
                 periods_per_year=periods_per_year,
@@ -314,7 +314,7 @@ def full(returns, benchmark=None, rf=0., grayscale=False,
         print('\n\n')
         print('[Strategy Visualization]\nvia Matplotlib')
 
-    plots(returns=returns, benchmark=benchmark,
+    plots(returns=returns, benchmark=benchmark, rolling_period=rolling_period, 
           grayscale=grayscale, figsize=figsize, mode='full',
           periods_per_year=periods_per_year, prepare_returns=False)
 
@@ -638,11 +638,13 @@ def metrics(returns, benchmark=None, rf=0., display=True,
 
 
 def plots(returns, benchmark=None, grayscale=False,
-          figsize=(8, 5), mode='basic', compounded=True,
-          periods_per_year=252, prepare_returns=True, match_dates=False):
+          figsize=(8, 5), mode='basic', compounded=True, rolling_period=0, 
+          periods_per_year=365, prepare_returns=True, match_dates=False):
 
-    win_year, win_half_year = _get_trading_periods(periods_per_year)
-
+    win_year, win_half_year = qs.reports._get_trading_periods(periods_per_year)
+    if rolling_period == 0:
+        rolling_period = win_half_year
+    
     if prepare_returns:
         returns = _utils._prepare_returns(returns)
 
@@ -705,17 +707,17 @@ def plots(returns, benchmark=None, grayscale=False,
                             prepare_returns=False)
 
     _plots.rolling_volatility(
-        returns, benchmark, grayscale=grayscale,
+        returns, benchmark, grayscale=grayscale, period_label=str(rolling_period)+" Days",
         figsize=(figsize[0], figsize[0]*.3), show=True, ylabel=False,
         period=win_half_year)
 
-    _plots.rolling_sharpe(returns, grayscale=grayscale,
+    _plots.rolling_sharpe(returns, grayscale=grayscale, period_label=str(rolling_period)+" Days", 
                           figsize=(figsize[0], figsize[0]*.3),
-                          show=True, ylabel=False, period=win_half_year)
+                          show=True, ylabel=False, period=rolling_period)
 
-    _plots.rolling_sortino(returns, grayscale=grayscale,
+    _plots.rolling_sortino(returns, grayscale=grayscale, period_label=str(rolling_period)+" Days",
                            figsize=(figsize[0], figsize[0]*.3),
-                           show=True, ylabel=False, period=win_half_year)
+                           show=True, ylabel=False, period=rolling_period)
 
     _plots.drawdowns_periods(returns, grayscale=grayscale,
                              figsize=(figsize[0], figsize[0]*.5),
