@@ -285,7 +285,7 @@ def full(returns, benchmark=None, rf=0., grayscale=False,
 
     if _utils._in_notebook():
         iDisplay(iHTML('<h4>Performance Metrics</h4>'))
-        iDisplay(qs.reports.metrics(returns=returns, benchmark=benchmark,
+        iDisplay(metrics(returns=returns, benchmark=benchmark,
                          rf=rf, display=display, mode='full',
                          compounded=compounded,
                          periods_per_year=periods_per_year,
@@ -299,7 +299,7 @@ def full(returns, benchmark=None, rf=0., grayscale=False,
         iDisplay(iHTML('<h4>Strategy Visualization</h4>'))
     else:
         print('[Performance Metrics]\n')
-        qs.reports.metrics(returns=returns, benchmark=benchmark,
+        metrics(returns=returns, benchmark=benchmark,
                 rf=rf, display=display, mode='full',
                 compounded=compounded,
                 periods_per_year=periods_per_year,
@@ -641,7 +641,7 @@ def plots(returns, benchmark=None, grayscale=False,
           figsize=(8, 5), mode='basic', compounded=True, rolling_period=0, 
           periods_per_year=365, prepare_returns=True, match_dates=False):
 
-    win_year, win_half_year = qs.reports._get_trading_periods(periods_per_year)
+    win_year, win_half_year = _get_trading_periods(periods_per_year)
     if rolling_period == 0:
         rolling_period = win_half_year
     
