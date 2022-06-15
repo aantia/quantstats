@@ -1,5 +1,5 @@
-{% set name = "QuantStats" %}
-{% set version = "0.0.35" %}
+{% set name = "QuantStatsN" %}
+{% set version = "0.0.36" %}
 
 package:
   name: "{{ name|lower }}"
