@@ -40,8 +40,8 @@ requirements:
 
 test:
   imports:
-    - quantstats
-    - quantstats._plotting
+    - quantstatsn
+    - quantstatsn._plotting
 
 about:
   home: "https://github.com/ranaroussi/quantstats"

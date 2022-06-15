@@ -30,12 +30,12 @@ with io.open(path.join(here, 'requirements.txt'), encoding='utf-8') as f:
     requirements = [line.rstrip() for line in f]
 
 setup(
-    name='QuantStats',
+    name='QuantStatsN',
     version=version,
     description='Portfolio analytics for quants',
     long_description=long_description,
-    url='https://github.com/ranaroussi/quantstats',
-    author='Ran Aroussi',
+    url='https://github.com/aantia/quantstats',
+    author='Ran Aroussi, aantia',
     author_email='ran@aroussi.com',
     license='Apache Software License',
     classifiers=[
