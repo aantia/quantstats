@@ -33,7 +33,7 @@ from .. import (
     stats as _stats, utils as _utils,
 )
 
-from . import core as _core
+from . import core_s as _core
 
 
 _FLATUI_COLORS = ["#fedd78", "#348dc1", "#af4b64",
