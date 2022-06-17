@@ -419,11 +419,11 @@ def plot_rolling_stats(returns, benchmark=None, title="",
         df = _pd.DataFrame(index=series.index, data={token: series})
         if isinstance(benchmark, _pd.Series):
             df['Benchmark'] = benchmark[benchmark.index.isin(returns.index)]
-            df = df[['Benchmark', returns_label]].dropna()
+            df = df[['Benchmark', token]].dropna()
             ax.plot(df['Benchmark'], lw=lw, label="Benchmark", alpha=.8)
 
-        ax.plot(df[returns_label].dropna(), lw=lw,
-                label=returns_label)
+        ax.plot(df[token].dropna(), lw=lw,
+                label=token)
         if subtitle:
             ax.set_title("\n%s - %s                   " % (
                 df.index.date[:1][0].strftime('%e %b \'%y'),
