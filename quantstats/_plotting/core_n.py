@@ -413,7 +413,9 @@ def plot_rolling_stats(returns, benchmark=None, title="",
     ax.spines['bottom'].set_visible(False)
     ax.spines['left'].set_visible(False)
 
+    print(returns)
     for series in returns:
+        print(series)
         df = _pd.DataFrame(index=series.index, data={returns_label: series})
         if isinstance(benchmark, _pd.Series):
             df['Benchmark'] = benchmark[benchmark.index.isin(returns.index)]
@@ -422,7 +424,6 @@ def plot_rolling_stats(returns, benchmark=None, title="",
 
         ax.plot(df[returns_label].dropna(), lw=lw,
                 label=returns_label)
-        print("ping")
         if subtitle:
             ax.set_title("\n%s - %s                   " % (
                 df.index.date[:1][0].strftime('%e %b \'%y'),
