@@ -421,7 +421,7 @@ def plot_rolling_stats(returns, benchmark=None, title="",
             ax.plot(df['Benchmark'], lw=lw, label="Benchmark", alpha=.8)
 
         ax.plot(df[returns_label].dropna(), lw=lw,
-                label=returns_label, color=colors[1])
+                label=returns_label)
 
         if subtitle:
             ax.set_title("\n%s - %s                   " % (
