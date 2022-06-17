@@ -558,6 +558,7 @@ def rolling_volatility(returns, benchmark=None,
 
 
 # returns as iterable
+# returns should be a list of tuples of token name string and pandas series of prices labelled with dates
 def rolling_sharpe(returns, benchmark=None, rf=0.,
                    period=126, period_label="6-Months",
                    periods_per_year=252,
@@ -565,12 +566,12 @@ def rolling_sharpe(returns, benchmark=None, rf=0.,
                    figsize=(10, 3), ylabel="Sharpe",
                    subtitle=True, savefig=None, show=True):
 
-    returns = [_stats.rolling_sharpe(
-        line, rf, period, True, periods_per_year, ) for line in returns]
+    returns = [(token, _stats.rolling_sharpe(
+        line, rf, period, True, periods_per_year,)) for token, line in returns]
 
 # does this work? I only added the [0]
     if benchmark is not None:
-        benchmark = _utils._prepare_benchmark(benchmark, returns[0].index, rf)
+        benchmark = _utils._prepare_benchmark(benchmark, returns[0][1].index, rf)
         benchmark = _stats.rolling_sharpe(
             benchmark, rf, period, True, periods_per_year,
             prepare_returns=False)

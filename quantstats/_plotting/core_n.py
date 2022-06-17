@@ -398,6 +398,7 @@ def plot_histogram(returns, resample="M", bins=20,
 
 
 # this should work soon
+# returns is a tuple of (string token name, [list of df series of prices labeled with dates])
 def plot_rolling_stats(returns, benchmark=None, title="",
                        returns_label="Strategy",
                        hline=None, hlw=None, hlcolor="red", hllabel="",
@@ -413,10 +414,8 @@ def plot_rolling_stats(returns, benchmark=None, title="",
     ax.spines['bottom'].set_visible(False)
     ax.spines['left'].set_visible(False)
 
-    print(returns)
-    for series in returns:
-        print(series)
-        df = _pd.DataFrame(index=series.index, data={returns_label: series})
+    for token, series in returns:
+        df = _pd.DataFrame(index=series.index, data={returns_label: token})
         if isinstance(benchmark, _pd.Series):
             df['Benchmark'] = benchmark[benchmark.index.isin(returns.index)]
             df = df[['Benchmark', returns_label]].dropna()
