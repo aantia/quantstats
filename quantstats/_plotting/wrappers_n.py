@@ -567,9 +567,9 @@ def rolling_sharpe(returns, benchmark=None, rf=0.,
                    subtitle=True, savefig=None, show=True):
 
     returns = [(token, _stats.rolling_sharpe(
-        line, rf, period, True, periods_per_year,)) for token, line in returns]
+        line, rf, period, True, periods_per_year, )) for token, line in returns]
 
-# does this work? I only added the [0]
+# does this work? I only added the [0][1]
     if benchmark is not None:
         benchmark = _utils._prepare_benchmark(benchmark, returns[0][1].index, rf)
         benchmark = _stats.rolling_sharpe(

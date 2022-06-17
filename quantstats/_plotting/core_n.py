@@ -398,7 +398,6 @@ def plot_histogram(returns, resample="M", bins=20,
 
 
 # this should work soon
-# returns is a tuple of (string token name, [list of df series of prices labeled with dates])
 def plot_rolling_stats(returns, benchmark=None, title="",
                        returns_label="Strategy",
                        hline=None, hlw=None, hlcolor="red", hllabel="",
