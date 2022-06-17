@@ -414,8 +414,6 @@ def plot_rolling_stats(returns, benchmark=None, title="",
     ax.spines['left'].set_visible(False)
 
     for token, series in returns:
-        print("token: " + token)
-        print(series)
         df = _pd.DataFrame(index=series.index, data={token: series})
         if isinstance(benchmark, _pd.Series):
             df['Benchmark'] = benchmark[benchmark.index.isin(returns.index)]
