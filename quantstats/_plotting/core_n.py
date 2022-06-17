@@ -423,7 +423,7 @@ def plot_rolling_stats(returns, benchmark=None, title="",
             ax.plot(df['Benchmark'], lw=lw, label="Benchmark", alpha=.8)
 
         ax.plot(df[returns_label].dropna(), lw=lw,
-                label=token)
+                label=returns_label)
         if subtitle:
             ax.set_title("\n%s - %s                   " % (
                 df.index.date[:1][0].strftime('%e %b \'%y'),
