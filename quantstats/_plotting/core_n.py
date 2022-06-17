@@ -418,8 +418,7 @@ def plot_rolling_stats(returns, benchmark=None, title="",
         if isinstance(benchmark, _pd.Series):
             df['Benchmark'] = benchmark[benchmark.index.isin(returns.index)]
             df = df[['Benchmark', returns_label]].dropna()
-            ax.plot(df['Benchmark'], lw=lw, label="Benchmark",
-                    color=colors[0], alpha=.8)
+            ax.plot(df['Benchmark'], lw=lw, label="Benchmark", alpha=.8)
 
         ax.plot(df[returns_label].dropna(), lw=lw,
                 label=returns_label, color=colors[1])
