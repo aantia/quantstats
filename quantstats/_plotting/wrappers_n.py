@@ -68,7 +68,8 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
 
     colors = _GRAYSCALE_COLORS if grayscale else _FLATUI_COLORS
 
-    returns = _utils.make_portfolio(returns, 1, mode).pct_change().fillna(0)
+    returns = [(token, _utils.make_portfolio(line, 1, mode).pct_change().fillna(0))
+                    for token, line in returns]
 
     if figsize is None:
         size = list(_plt.gcf().get_size_inches())
@@ -88,23 +89,30 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
 
     fig.set_facecolor('white')
 
-    if subtitle:
+    #not sure what exactly this does, it doesn't seem to show up on the figure
+    '''if subtitle:
         axes[0].set_title("\n%s - %s ;  Sharpe: %.2f                      " % (
-            returns.index.date[:1][0].strftime('%e %b \'%y'),
-            returns.index.date[-1:][0].strftime('%e %b \'%y'),
+            returns[0].index.date[:1][0].strftime('%e %b \'%y'),
+            returns[0].index.date[-1:][0].strftime('%e %b \'%y'),
             _stats.sharpe(returns)
-        ), fontsize=12, color='gray')
+        ), fontsize=12, color='gray')'''
 
     axes[0].set_ylabel('Cumulative Return', fontname=fontname,
                        fontweight='bold', fontsize=12)
-    axes[0].plot(_stats.compsum(returns) * 100, color=colors[1],
-                 lw=1 if grayscale else lw, zorder=1)
+    for line in returns:
+        axes[0].plot(_stats.compsum(line) * 100, color=colors[1],
+                     lw=1 if grayscale else lw, zorder=1)
     axes[0].axhline(0, color='silver', lw=1, zorder=0)
 
     axes[0].set_yscale("symlog" if log_scale else "linear")
 
-    dd = _stats.to_drawdown_series(returns) * 100
-    ddmin = _utils._round_to_closest(abs(dd.min()), 5)
+    #dd = _stats.to_drawdown_series(returns) * 100
+    dd = [_stats.to_drawdown_series(line) * 100 for token, line in returns]
+    ddmin = 0
+    for line in dd:
+        test = _utils._round_to_closest(abs(line.min()), 5)
+        if test > ddmin:
+            ddmin = test
     ddmin_ticks = 5
     if ddmin > 50:
         ddmin_ticks = ddmin / 4
@@ -112,7 +120,6 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
         ddmin_ticks = ddmin / 3
     ddmin_ticks = int(_utils._round_to_closest(ddmin_ticks, 5))
 
-    # ddmin_ticks = int(_utils._round_to_closest(ddmin, 5))
     axes[1].set_ylabel('Drawdown', fontname=fontname,
                        fontweight='bold', fontsize=12)
     axes[1].set_yticks(_np.arange(-ddmin, 0, step=ddmin_ticks))
@@ -131,9 +138,20 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
 
     axes[2].set_yscale("symlog" if log_scale else "linear")
 
-    retmax = _utils._round_to_closest(returns.max() * 100, 5)
-    retmin = _utils._round_to_closest(returns.min() * 100, 5)
+    retmax = 0
+    for line in returns:
+        test = _utils._round_to_closest(line.max() * 100, 5)
+        if test > retmax:
+            retmax = test
+
+    retmin = 0
+    for line in returns:
+        test = _utils._round_to_closest(line.min() * 100, 5)
+        if test < retmin:
+            retmin = test
+
     retdiff = (retmax - retmin)
+
     steps = 5
     if retdiff > 50:
         steps = retdiff / 5
@@ -622,8 +640,8 @@ def rolling_sortino(returns, benchmark=None, rf=0.,
         return fig
 
 
-# this works, but note that it will not adjust brilliantly for different date ranges - e.g. if you do btc + sol
-# from 2016-2022 it will model 50% of your funds doing nothing until solana launches
+# this works, but note that it will not adjust for different date ranges - e.g. if you do btc + sol
+# from 2016-2022 it will ignore everything until solana launches in 2020
 def monthly_heatmap(returns, annot_size=10, figsize=(10, 5),
                     cbar=True, square=False,
                     compounded=True, eoy=False,
