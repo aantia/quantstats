@@ -633,7 +633,7 @@ def monthly_heatmap(returns, annot_size=10, figsize=(10, 5),
 
     returns = [_stats.monthly_returns(line, eoy=eoy,
                                      compounded=compounded) * 100 for token, line in returns]
-    print(returns)
+    print(type(returns[0]))
 
     returns_final = pd.Series()
 
