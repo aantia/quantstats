@@ -557,7 +557,6 @@ def rolling_volatility(returns, benchmark=None,
         return fig
 
 
-# returns as iterable
 # returns should be a list of tuples of token name string and pandas series of prices labelled with dates
 def rolling_sharpe(returns, benchmark=None, rf=0.,
                    period=126, period_label="6-Months",
@@ -598,17 +597,17 @@ def rolling_sortino(returns, benchmark=None, rf=0.,
                     figsize=(10, 3), ylabel="Sortino",
                     subtitle=True, savefig=None, show=True):
 
-    returns = _stats.rolling_sortino(
-        returns, rf, period, True, periods_per_year)
+    returns = [(token, _stats.rolling_sortino(
+        line, rf, period, True, periods_per_year, )) for token, line in returns]
 
     if benchmark is not None:
-        benchmark = _utils._prepare_benchmark(benchmark, returns.index, rf)
+        benchmark = _utils._prepare_benchmark(benchmark, returns[0][1].index, rf)
         benchmark = _stats.rolling_sortino(
             benchmark, rf, period, True, periods_per_year,
             prepare_returns=False)
 
     fig = _core.plot_rolling_stats(returns, benchmark,
-                                   hline=returns.mean(),
+                                   #hline=returns.mean(),
                                    hlw=1.5,
                                    ylabel=ylabel,
                                    title='Rolling Sortino (%s)' % period_label,
