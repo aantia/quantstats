@@ -622,6 +622,8 @@ def rolling_sortino(returns, benchmark=None, rf=0.,
         return fig
 
 
+# this works, but note that it will not adjust brilliantly for different date ranges - e.g. if you do btc + sol
+# from 2016-2022 it will model 50% of your funds doing nothing until solana launches
 def monthly_heatmap(returns, annot_size=10, figsize=(10, 5),
                     cbar=True, square=False,
                     compounded=True, eoy=False,
@@ -632,13 +634,12 @@ def monthly_heatmap(returns, annot_size=10, figsize=(10, 5),
     cmap = 'gray' if grayscale else 'RdYlGn'
 
     returns = [_stats.monthly_returns(line, eoy=eoy,
-                                     compounded=compounded) * 100 for token, line in returns]
+                                     compounded=compounded) * 100 / len(returns) for token, line in returns]
 
     returns_final = returns[0]
 
     for i in range(1, len(returns)):
         returns_final += returns[i]
-    print(returns_final)
 
     fig_height = len(returns_final) / 3
 
