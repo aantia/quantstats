@@ -22,6 +22,7 @@
 
 import warnings
 import matplotlib.pyplot as _plt
+import pandas as pd
 from matplotlib.ticker import (
     StrMethodFormatter as _StrMethodFormatter,
     FuncFormatter as _FuncFormatter
@@ -630,10 +631,15 @@ def monthly_heatmap(returns, annot_size=10, figsize=(10, 5),
     # colors, ls, alpha = _core._get_colors(grayscale)
     cmap = 'gray' if grayscale else 'RdYlGn'
 
-    returns = _stats.monthly_returns(returns, eoy=eoy,
-                                     compounded=compounded) * 100
+    returns = [_stats.monthly_returns(line, eoy=eoy,
+                                     compounded=compounded) * 100 for token, line in returns]
 
-    fig_height = len(returns) / 3
+    returns_final = pd.Series()
+
+    for line in returns:
+        returns_final.add(line, fill_value=0)
+
+    fig_height = len(returns_final) / 3
 
     if figsize is None:
         size = list(_plt.gcf().get_size_inches())
@@ -657,7 +663,7 @@ def monthly_heatmap(returns, annot_size=10, figsize=(10, 5),
                  fontname=fontname, fontweight='bold', color='black')
 
     # _sns.set(font_scale=.9)
-    ax = _sns.heatmap(returns, ax=ax, annot=True, center=0,
+    ax = _sns.heatmap(returns_final, ax=ax, annot=True, center=0,
                       annot_kws={"size": annot_size},
                       fmt="0.2f", linewidths=0.5,
                       square=square, cbar=cbar, cmap=cmap,
