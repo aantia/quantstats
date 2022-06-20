@@ -68,7 +68,7 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
 
     colors = _GRAYSCALE_COLORS if grayscale else _FLATUI_COLORS
 
-    returns = [(token, _utils.make_portfolio(line, 1, mode).pct_change().fillna(0))
+    returns = [_utils.make_portfolio(line, 1, mode).pct_change().fillna(0)
                     for token, line in returns]
 
     if figsize is None:
@@ -92,8 +92,8 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
     #not sure what exactly this does, it doesn't seem to show up on the figure
     '''if subtitle:
         axes[0].set_title("\n%s - %s ;  Sharpe: %.2f                      " % (
-            returns[0].index.date[:1][0].strftime('%e %b \'%y'),
-            returns[0].index.date[-1:][0].strftime('%e %b \'%y'),
+            returns.index.date[:1][0].strftime('%e %b \'%y'),
+            returns.index.date[-1:][0].strftime('%e %b \'%y'),
             _stats.sharpe(returns)
         ), fontsize=12, color='gray')'''
 
