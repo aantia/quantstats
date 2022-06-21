@@ -134,7 +134,8 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
 
     axes[2].set_ylabel('Daily Return', fontname=fontname,
                        fontweight='bold', fontsize=12)
-    axes[2].plot(returns * 100, color=colors[0], lw=0.5, zorder=1)
+    for line in returns:
+        axes[2].plot(line * 100, color=colors[0], lw=0.5, zorder=1)
     axes[2].axhline(0, color='silver', lw=1, zorder=0)
     axes[2].axhline(0, color=colors[-1], linestyle='--', lw=1, zorder=2)
 
