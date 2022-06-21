@@ -194,17 +194,17 @@ def plot_timeseries(returns, benchmark=None,
     colors, ls, alpha = _get_colors(grayscale)
 
     for token, line in returns:
-        returns.fillna(0, inplace=True)
+        line.fillna(0, inplace=True)
     if isinstance(benchmark, _pd.Series):
         benchmark.fillna(0, inplace=True)
 
     if match_volatility and benchmark is None:
         raise ValueError('match_volatility requires passing of '
                          'benchmark.')
-    for token, line in returns:
+    for i in range(0, len(returns)):
         if match_volatility and benchmark is not None:
             bmark_vol = benchmark.std()
-            line = (line / line.std()) * bmark_vol
+            returns[i] = (returns[i][0], (returns[i][1] / returns[i][1].std()) * bmark_vol)
 
     # ---------------
     for i in range(0, len(returns)):
