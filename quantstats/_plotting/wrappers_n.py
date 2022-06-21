@@ -107,7 +107,7 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
     axes[0].set_yscale("symlog" if log_scale else "linear")
 
     #dd = _stats.to_drawdown_series(returns) * 100
-    dd = [_stats.to_drawdown_series(line) * 100 for token, line in returns]
+    dd = [_stats.to_drawdown_series(line) * 100 for line in returns]
     ddmin = 0
     for line in dd:
         test = _utils._round_to_closest(abs(line.min()), 5)
