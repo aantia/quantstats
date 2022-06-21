@@ -107,9 +107,9 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
     axes[0].set_yscale("symlog" if log_scale else "linear")
 
     #dd = _stats.to_drawdown_series(returns) * 100
-    dd = [_stats.to_drawdown_series(line) * 100 for token, line in returns]
+    dd = [(token, _stats.to_drawdown_series(line) * 100) for token, line in returns]
     ddmin = 0
-    for line in dd:
+    for token, line in dd:
         test = _utils._round_to_closest(abs(line.min()), 5)
         if test > ddmin:
             ddmin = test
@@ -124,7 +124,7 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
                        fontweight='bold', fontsize=12)
     axes[1].set_yticks(_np.arange(-ddmin, 0, step=ddmin_ticks))
     axes[1].axhline(0, color='silver', lw=1, zorder=0)
-    for line in dd:
+    for token, line in dd:
         axes[1].plot(line, label=token, lw=1 if grayscale else lw, zorder=1)
         if not grayscale:
             axes[1].fill_between(line.index, 0, line, color=colors[2], alpha=.1)
