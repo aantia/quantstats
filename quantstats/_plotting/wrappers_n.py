@@ -100,7 +100,7 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
     axes[0].set_ylabel('Cumulative Return', fontname=fontname,
                        fontweight='bold', fontsize=12)
     for line in returns:
-        axes[0].plot(_stats.compsum(line) * 100, color=colors[1],
+        axes[0].plot(_stats.compsum(line) * 100,
                      lw=1 if grayscale else lw, zorder=1)
     axes[0].axhline(0, color='silver', lw=1, zorder=0)
 
