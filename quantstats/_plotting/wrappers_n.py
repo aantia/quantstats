@@ -125,7 +125,7 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
     axes[1].set_yticks(_np.arange(-ddmin, 0, step=ddmin_ticks))
     axes[1].axhline(0, color='silver', lw=1, zorder=0)
     for line in dd:
-        axes[1].plot(dd, color=colors[2], lw=1 if grayscale else lw, zorder=1)
+        axes[1].plot(line, color=colors[2], lw=1 if grayscale else lw, zorder=1)
         if not grayscale:
             print(line)
             axes[1].fill_between(line.index, 0, line, color=colors[2], alpha=.1)
