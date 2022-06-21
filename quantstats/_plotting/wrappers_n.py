@@ -68,7 +68,7 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
 
     colors = _GRAYSCALE_COLORS if grayscale else _FLATUI_COLORS
 
-    returns = [_utils.make_portfolio(line, 1, mode).pct_change().fillna(0)
+    returns = [(token, _utils.make_portfolio(line, 1, mode).pct_change().fillna(0))
                     for token, line in returns]
 
     if figsize is None:
@@ -99,15 +99,15 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
 
     axes[0].set_ylabel('Cumulative Return', fontname=fontname,
                        fontweight='bold', fontsize=12)
-    for line in returns:
+    for token, line in returns:
         axes[0].plot(_stats.compsum(line) * 100,
-                     lw=1 if grayscale else lw, zorder=1)
+                     lw=1 if grayscale else lw, zorder=1, label=token)
     axes[0].axhline(0, color='silver', lw=1, zorder=0)
 
     axes[0].set_yscale("symlog" if log_scale else "linear")
 
     #dd = _stats.to_drawdown_series(returns) * 100
-    dd = [_stats.to_drawdown_series(line) * 100 for line in returns]
+    dd = [_stats.to_drawdown_series(line) * 100 for token, line in returns]
     ddmin = 0
     for line in dd:
         test = _utils._round_to_closest(abs(line.min()), 5)
@@ -125,7 +125,7 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
     axes[1].set_yticks(_np.arange(-ddmin, 0, step=ddmin_ticks))
     axes[1].axhline(0, color='silver', lw=1, zorder=0)
     for line in dd:
-        axes[1].plot(line, lw=1 if grayscale else lw, zorder=1)
+        axes[1].plot(line, lw=1 if grayscale else lw, zorder=1, label=token)
         if not grayscale:
             axes[1].fill_between(line.index, 0, line, color=colors[2], alpha=.1)
 
@@ -133,21 +133,21 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
 
     axes[2].set_ylabel('Daily Return', fontname=fontname,
                        fontweight='bold', fontsize=12)
-    for line in returns:
-        axes[2].plot(line * 100, lw=0.5, zorder=1)
+    for token, line in returns:
+        axes[2].plot(line * 100, lw=0.5, zorder=1, label=token)
     axes[2].axhline(0, color='silver', lw=1, zorder=0)
     axes[2].axhline(0, color=colors[-1], linestyle='--', lw=1, zorder=2)
 
     axes[2].set_yscale("symlog" if log_scale else "linear")
 
     retmax = 0
-    for line in returns:
+    for token, line in returns:
         test = _utils._round_to_closest(line.max() * 100, 5)
         if test > retmax:
             retmax = test
 
     retmin = 0
-    for line in returns:
+    for token, line in returns:
         test = _utils._round_to_closest(line.min() * 100, 5)
         if test < retmin:
             retmin = test
