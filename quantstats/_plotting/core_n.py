@@ -193,35 +193,38 @@ def plot_timeseries(returns, benchmark=None,
 
     colors, ls, alpha = _get_colors(grayscale)
 
-    returns.fillna(0, inplace=True)
+    for token, line in returns:
+        returns.fillna(0, inplace=True)
     if isinstance(benchmark, _pd.Series):
         benchmark.fillna(0, inplace=True)
 
     if match_volatility and benchmark is None:
         raise ValueError('match_volatility requires passing of '
                          'benchmark.')
-    if match_volatility and benchmark is not None:
-        bmark_vol = benchmark.std()
-        returns = (returns / returns.std()) * bmark_vol
+    for token, line in returns:
+        if match_volatility and benchmark is not None:
+            bmark_vol = benchmark.std()
+            line = (line / line.std()) * bmark_vol
 
     # ---------------
-    if compound is True:
-        if cumulative:
-            returns = _stats.compsum(returns)
-            if isinstance(benchmark, _pd.Series):
-                benchmark = _stats.compsum(benchmark)
-        else:
-            returns = returns.cumsum()
-            if isinstance(benchmark, _pd.Series):
-                benchmark = benchmark.cumsum()
+    for i in range(0, len(returns)):
+        if compound is True:
+            if cumulative:
+                returns[i] = (returns[i][0], _stats.compsum(returns[i][1]))
+                if isinstance(benchmark, _pd.Series):
+                    benchmark = _stats.compsum(benchmark)
+            else:
+                returns[i] = (returns[i][0], returns[i][1].cumsum())
+                if isinstance(benchmark, _pd.Series):
+                    benchmark = benchmark.cumsum()
 
-    if resample:
-        returns = returns.resample(resample)
-        returns = returns.last() if compound is True else returns.sum()
-        if isinstance(benchmark, _pd.Series):
-            benchmark = benchmark.resample(resample)
-            benchmark = benchmark.last(
-            ) if compound is True else benchmark.sum()
+        if resample:
+            returns[i] = (returns[i][0], returns[i][1].resample(resample))
+            returns[i] = (returns[i][0], returns[i][1].last() if compound is True else returns[i][1].sum())
+            if isinstance(benchmark, _pd.Series):
+                benchmark = benchmark.resample(resample)
+                benchmark = benchmark.last(
+                ) if compound is True else benchmark.sum()
     # ---------------
 
     fig, ax = _plt.subplots(figsize=figsize)
@@ -233,12 +236,12 @@ def plot_timeseries(returns, benchmark=None,
     fig.suptitle(title+"\n", y=.99, fontweight="bold", fontname=fontname,
                  fontsize=14, color="black")
 
-    if subtitle:
+    '''if subtitle:
         ax.set_title("\n%s - %s                  " % (
             returns.index.date[:1][0].strftime('%e %b \'%y'),
             returns.index.date[-1:][0].strftime('%e %b \'%y')
         ), fontsize=12, color='gray')
-
+'''
     fig.set_facecolor('white')
     ax.set_facecolor('white')
 
@@ -246,10 +249,14 @@ def plot_timeseries(returns, benchmark=None,
         ax.plot(benchmark, lw=lw, ls=ls, label="Benchmark", color=colors[0])
 
     alpha = .25 if grayscale else 1
-    ax.plot(returns, lw=lw, label=returns_label, color=colors[1], alpha=alpha)
+    for token, line in returns:
+        ax.plot(line, lw=lw, label=token, color=colors[1], alpha=alpha)
+
+    ax.legend(loc="best")
 
     if fill:
-        ax.fill_between(returns.index, 0, returns, color=colors[1], alpha=.25)
+        for token, line in returns:
+            ax.fill_between(line.index, 0, line, color=colors[1], alpha=.25)
 
     # rotate and align the tick labels so they look better
     fig.autofmt_xdate()
