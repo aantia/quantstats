@@ -126,7 +126,8 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
     axes[1].plot(dd, color=colors[2], lw=1 if grayscale else lw, zorder=1)
     axes[1].axhline(0, color='silver', lw=1, zorder=0)
     if not grayscale:
-        axes[1].fill_between(dd.index, 0, dd, color=colors[2], alpha=.1)
+        for line in dd:
+            axes[1].fill_between(line.index, 0, dd, color=colors[2], alpha=.1)
 
     axes[1].set_yscale("symlog" if log_scale else "linear")
 
