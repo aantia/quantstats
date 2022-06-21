@@ -125,9 +125,8 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
     axes[1].set_yticks(_np.arange(-ddmin, 0, step=ddmin_ticks))
     axes[1].axhline(0, color='silver', lw=1, zorder=0)
     for line in dd:
-        axes[1].plot(line, color=colors[2], lw=1 if grayscale else lw, zorder=1)
+        axes[1].plot(line, lw=1 if grayscale else lw, zorder=1)
         if not grayscale:
-            print(line)
             axes[1].fill_between(line.index, 0, line, color=colors[2], alpha=.1)
 
     axes[1].set_yscale("symlog" if log_scale else "linear")
@@ -135,7 +134,7 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
     axes[2].set_ylabel('Daily Return', fontname=fontname,
                        fontweight='bold', fontsize=12)
     for line in returns:
-        axes[2].plot(line * 100, color=colors[0], lw=0.5, zorder=1)
+        axes[2].plot(line * 100, lw=0.5, zorder=1)
     axes[2].axhline(0, color='silver', lw=1, zorder=0)
     axes[2].axhline(0, color=colors[-1], linestyle='--', lw=1, zorder=2)
 
