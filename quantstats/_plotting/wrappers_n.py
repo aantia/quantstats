@@ -100,8 +100,8 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
     axes[0].set_ylabel('Cumulative Return', fontname=fontname,
                        fontweight='bold', fontsize=12)
     for token, line in returns:
-        axes[0].plot(_stats.compsum(line) * 100,
-                     lw=1 if grayscale else lw, zorder=1, label=token)
+        axes[0].plot(_stats.compsum(line) * 100, label=token,
+                     lw=1 if grayscale else lw, zorder=1)
     axes[0].axhline(0, color='silver', lw=1, zorder=0)
 
     axes[0].set_yscale("symlog" if log_scale else "linear")
@@ -125,7 +125,7 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
     axes[1].set_yticks(_np.arange(-ddmin, 0, step=ddmin_ticks))
     axes[1].axhline(0, color='silver', lw=1, zorder=0)
     for line in dd:
-        axes[1].plot(line, lw=1 if grayscale else lw, zorder=1, label=token)
+        axes[1].plot(line, label=token, lw=1 if grayscale else lw, zorder=1)
         if not grayscale:
             axes[1].fill_between(line.index, 0, line, color=colors[2], alpha=.1)
 
@@ -134,7 +134,7 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
     axes[2].set_ylabel('Daily Return', fontname=fontname,
                        fontweight='bold', fontsize=12)
     for token, line in returns:
-        axes[2].plot(line * 100, lw=0.5, zorder=1, label=token)
+        axes[2].plot(line * 100, label=token, lw=0.5, zorder=1)
     axes[2].axhline(0, color='silver', lw=1, zorder=0)
     axes[2].axhline(0, color=colors[-1], linestyle='--', lw=1, zorder=2)
 
@@ -164,6 +164,7 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
 
     for ax in axes:
         ax.set_facecolor('white')
+        ax.legend(loc="upper left")
         ax.yaxis.set_label_coords(-.1, .5)
         ax.yaxis.set_major_formatter(_StrMethodFormatter('{x:,.0f}%'))
 
