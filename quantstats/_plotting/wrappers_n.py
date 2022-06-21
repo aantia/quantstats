@@ -206,7 +206,7 @@ def earnings(returns, start_balance=1e5, mode="comp",
     colors = _GRAYSCALE_COLORS if grayscale else _FLATUI_COLORS
     alpha = .5 if grayscale else .8
 
-    returns = _utils.make_portfolio(returns, start_balance, mode)
+    returns = [(token, _utils.make_portfolio(line, start_balance, mode)) for token, line in returns]
 
     if figsize is None:
         size = list(_plt.gcf().get_size_inches())
@@ -221,7 +221,7 @@ def earnings(returns, start_balance=1e5, mode="comp",
     fig.suptitle(title, fontsize=14, y=.995,
                  fontname=fontname, fontweight='bold', color='black')
 
-    if subtitle:
+    '''if subtitle:
         ax.set_title("\n%s - %s ;  P&L: %s (%s)                " % (
             returns.index.date[1:2][0].strftime('%e %b \'%y'),
             returns.index.date[-1:][0].strftime('%e %b \'%y'),
@@ -229,17 +229,18 @@ def earnings(returns, start_balance=1e5, mode="comp",
                 round(returns.values[-1]-returns.values[0], 2))),
             _utils._score_str("{:,}%".format(
                 round((returns.values[-1]/returns.values[0]-1)*100, 2)))
-        ), fontsize=12, color='gray')
+        ), fontsize=12, color='gray')'''
 
-    mx = returns.max()
-    returns_max = returns[returns == mx]
-    ix = returns_max[~_np.isnan(returns_max)].index[0]
-    returns_max = _np.where(returns.index == ix, mx, _np.nan)
+    for token, line in returns:
+        mx = line.max()
+        returns_max = line[line == mx]
+        ix = returns_max[~_np.isnan(returns_max)].index[0]
+        returns_max = _np.where(line.index == ix, mx, _np.nan)
 
-    ax.plot(returns.index, returns_max, marker='o', lw=0,
-            alpha=alpha, markersize=12, color=colors[0])
-    ax.plot(returns.index, returns, color=colors[1],
-            lw=1 if grayscale else lw)
+        ax.plot(line.index, returns_max, marker='o', lw=0,
+                alpha=alpha, markersize=12, color=colors[0])
+        ax.plot(line.index, line, color=colors[1], label=token,
+                lw=1 if grayscale else lw)
 
     ax.set_ylabel('Value of  ${:,.0f}'.format(start_balance),
                   fontname=fontname, fontweight='bold', fontsize=12)
