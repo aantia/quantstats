@@ -297,25 +297,28 @@ def returns(returns, benchmark=None,
             title += ' (Volatility Matched)'
 
     if prepare_returns:
-        returns = _utils._prepare_returns(returns)
+        returns = [(token, _utils._prepare_returns(line)) for token, line in returns]
 
-    benchmark = _utils._prepare_benchmark(benchmark, returns.index)
+    for token, line in returns:
+        benchmark = _utils._prepare_benchmark(benchmark, line.index)
 
-    fig = _core.plot_timeseries(returns, benchmark, title,
-                                ylabel=ylabel,
-                                match_volatility=match_volatility,
-                                log_scale=False,
-                                resample=resample,
-                                compound=compound,
-                                cumulative=cumulative,
-                                lw=lw,
-                                figsize=figsize,
-                                fontname=fontname,
-                                grayscale=grayscale,
-                                subtitle=subtitle,
-                                savefig=savefig, show=show)
-    if not show:
-        return fig
+        fig = _core.plot_timeseries(line, benchmark, title,
+                                    ylabel=ylabel,
+                                    label=token,
+                                    match_volatility=match_volatility,
+                                    log_scale=False,
+                                    resample=resample,
+                                    compound=compound,
+                                    cumulative=cumulative,
+                                    lw=lw,
+                                    figsize=figsize,
+                                    fontname=fontname,
+                                    grayscale=grayscale,
+                                    subtitle=subtitle,
+                                    savefig=savefig, show=show)
+        fig.legend(loc="best")
+        if not show:
+            return fig
 
 
 def log_returns(returns, benchmark=None,
