@@ -239,7 +239,7 @@ def earnings(returns, start_balance=1e5, mode="comp",
 
         ax.plot(line.index, returns_max, marker='o', lw=0,
                 alpha=alpha, markersize=12, color=colors[0])
-        ax.plot(line.index, line, color=colors[1], label=token,
+        ax.plot(line.index, line, label=token,
                 lw=1 if grayscale else lw)
 
     ax.set_ylabel('Value of  ${:,.0f}'.format(start_balance),
