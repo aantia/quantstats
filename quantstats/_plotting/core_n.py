@@ -192,7 +192,7 @@ def plot_timeseries(returns, benchmark=None,
                     subtitle=True, savefig=None, show=True):
 
     colors, ls, alpha = _get_colors(grayscale)
-    print(returns[0])
+
     for i in range(0, len(returns)):
         returns[i] = (returns[i][0], returns[i][1].fillna(0, inplace=True))
     if isinstance(benchmark, _pd.Series):
@@ -206,13 +206,10 @@ def plot_timeseries(returns, benchmark=None,
             bmark_vol = benchmark.std()
             returns[i] = (returns[i][0], (returns[i][1] / returns[i][1].std()) * bmark_vol)
 
-    print(returns[0])
     # ---------------
     for i in range(0, len(returns)):
         if compound is True:
             if cumulative:
-                print(returns[i])
-                print(returns[i][1])
                 returns[i] = (returns[i][0], _stats.compsum(returns[i][1]))
                 if isinstance(benchmark, _pd.Series):
                     benchmark = _stats.compsum(benchmark)
@@ -249,17 +246,17 @@ def plot_timeseries(returns, benchmark=None,
     ax.set_facecolor('white')
 
     if isinstance(benchmark, _pd.Series):
-        ax.plot(benchmark, lw=lw, ls=ls, label="Benchmark")
+        ax.plot(benchmark, lw=lw, ls=ls, label="Benchmark", color=colors[0])
 
     alpha = .25 if grayscale else 1
     for token, line in returns:
-        ax.plot(line, lw=lw, label=token, alpha=alpha)
+        ax.plot(line, lw=lw, label=token, color=colors[1], alpha=alpha)
 
     ax.legend(loc="best")
 
     if fill:
         for token, line in returns:
-            ax.fill_between(line.index, 0, line, alpha=.25)
+            ax.fill_between(line.index, 0, line, color=colors[1], alpha=.25)
 
     # rotate and align the tick labels so they look better
     fig.autofmt_xdate()
