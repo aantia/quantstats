@@ -191,12 +191,10 @@ def plot_timeseries(returns, benchmark=None,
                     grayscale=False, fontname="Arial",
                     subtitle=True, savefig=None, show=True):
 
-    print(type(returns[0][1]))
-    print(returns[0][1])
     colors, ls, alpha = _get_colors(grayscale)
 
-    '''for i in range(0, len(returns)):
-        returns[i] = (returns[i][0], returns[i][1].fillna(0, inplace=True))'''
+    for i in range(0, len(returns)):
+        returns[i] = (returns[i][0], returns[i][1].fillna(0, inplace=True))
     if isinstance(benchmark, _pd.Series):
         benchmark.fillna(0, inplace=True)
 
