@@ -210,6 +210,8 @@ def plot_timeseries(returns, benchmark=None,
     for i in range(0, len(returns)):
         if compound is True:
             if cumulative:
+                print(returns[i])
+                print(returns[i][1])
                 returns[i] = (returns[i][0], _stats.compsum(returns[i][1]))
                 if isinstance(benchmark, _pd.Series):
                     benchmark = _stats.compsum(benchmark)
