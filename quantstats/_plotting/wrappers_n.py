@@ -302,6 +302,7 @@ def returns(returns, benchmark=None,
     for token, line in returns:
         benchmark = _utils._prepare_benchmark(benchmark, line.index)
 
+    print(type(returns[0][1]))
     fig = _core.plot_timeseries(returns, benchmark, title,
                                 ylabel=ylabel,
                                 match_volatility=match_volatility,
