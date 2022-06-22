@@ -246,17 +246,17 @@ def plot_timeseries(returns, benchmark=None,
     ax.set_facecolor('white')
 
     if isinstance(benchmark, _pd.Series):
-        ax.plot(benchmark, lw=lw, ls=ls, label="Benchmark", color=colors[0])
+        ax.plot(benchmark, lw=lw, ls=ls, label="Benchmark")
 
     alpha = .25 if grayscale else 1
     for token, line in returns:
-        ax.plot(line, lw=lw, label=token, color=colors[1], alpha=alpha)
+        ax.plot(line, lw=lw, label=token, alpha=alpha)
 
     ax.legend(loc="best")
 
     if fill:
         for token, line in returns:
-            ax.fill_between(line.index, 0, line, color=colors[1], alpha=.25)
+            ax.fill_between(line.index, 0, line, alpha=.25)
 
     # rotate and align the tick labels so they look better
     fig.autofmt_xdate()
