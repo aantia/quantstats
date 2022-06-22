@@ -192,10 +192,8 @@ def plot_timeseries(returns, benchmark=None,
                     subtitle=True, savefig=None, show=True):
 
     colors, ls, alpha = _get_colors(grayscale)
-    print(returns[0])
     for i in range(0, len(returns)):
         returns[i] = (returns[i][0], returns[i][1].fillna(0))
-    print(returns[0])
     if isinstance(benchmark, _pd.Series):
         benchmark.fillna(0, inplace=True)
 
@@ -207,13 +205,10 @@ def plot_timeseries(returns, benchmark=None,
             bmark_vol = benchmark.std()
             returns[i] = (returns[i][0], (returns[i][1] / returns[i][1].std()) * bmark_vol)
 
-    print(returns[0])
     # ---------------
     for i in range(0, len(returns)):
         if compound is True:
             if cumulative:
-                print(returns[i])
-                print(returns[i][1])
                 returns[i] = (returns[i][0], _stats.compsum(returns[i][1]))
                 if isinstance(benchmark, _pd.Series):
                     benchmark = _stats.compsum(benchmark)
