@@ -311,7 +311,7 @@ def plot_timeseries(returns, benchmark=None,
 
     # this should make labels work on hover
     mplcursors.cursor(hover=True)
-
+    show = True
     if show:
         _plt.show(block=False)
 
