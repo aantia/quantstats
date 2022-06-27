@@ -214,7 +214,9 @@ def _prepare_returns(data, rf=0., nperiods=None):
         for col in data.columns:
             if data[col].dropna().min() >= 0 and data[col].dropna().max() > 1:
                 data[col] = data[col].pct_change()
-    elif data.min() >= 0 and data.max() > 1:
+    # elif data.min() >= 0 and data.max() > 1:
+    # this was checking that the price went above $1, I think. I don't know why; maybe he really didn't care about penny stocks?
+    elif data.min() >= 0:
         data = data.pct_change()
 
     # cleanup data
@@ -228,9 +230,9 @@ def _prepare_returns(data, rf=0., nperiods=None):
                                   'gain_to_pain_ratio',
                                   'rolling_volatility',]
 
-
     if function not in unnecessary_function_calls:
         if rf > 0:
+            print("function in unnecessary_function_calls")
             return to_excess_returns(data, rf, nperiods)
     return data
 

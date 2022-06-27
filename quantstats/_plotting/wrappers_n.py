@@ -283,7 +283,7 @@ def returns(returns, benchmark=None,
             grayscale=False, figsize=(10, 6),
             fontname='Arial', lw=1.5,
             match_volatility=False, compound=True, cumulative=True,
-            resample=None, ylabel="Cumulative Returns",
+            resample=None, ylabel="Return %",
             subtitle=True, savefig=None, show=True,
             prepare_returns=True):
 
@@ -302,6 +302,7 @@ def returns(returns, benchmark=None,
     for token, line in returns:
         benchmark = _utils._prepare_benchmark(benchmark, line.index)
 
+    print(returns[0])
     fig = _core.plot_timeseries(returns, benchmark, title,
                                 ylabel=ylabel,
                                 match_volatility=match_volatility,
