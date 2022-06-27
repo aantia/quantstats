@@ -144,7 +144,7 @@ def plot_returns_bars(returns, benchmark=None,
     ax.axhline(0, ls="--", lw=1, color="#000000", zorder=2)
 
     if isinstance(benchmark, _pd.Series) or hline:
-        ax.legend(fontsize=12)
+        ax.legend(fontsize=12, loc='lower left')
 
     _plt.yscale("symlog" if log_scale else "linear")
 
@@ -461,7 +461,7 @@ def plot_rolling_stats(returns, benchmark=None, title="",
 
     ax.yaxis.set_major_formatter(_FormatStrFormatter('%.2f'))
 
-    ax.legend(fontsize=12)
+    ax.legend(fontsize=12, loc='lower left')
 
     try:
         _plt.subplots_adjust(hspace=0, bottom=0, top=1)
@@ -544,7 +544,7 @@ def plot_rolling_beta(returns, benchmark,
                       fontweight='bold', fontsize=12, color="black")
         ax.yaxis.set_label_coords(-.1, .5)
 
-    ax.legend(fontsize=12)
+    ax.legend(fontsize=12, loc='lower left')
     try:
         _plt.subplots_adjust(hspace=0, bottom=0, top=1)
     except Exception:

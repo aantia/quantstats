@@ -164,7 +164,6 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
 
     for ax in axes:
         ax.set_facecolor('white')
-        ax.legend(ncol=3, loc="best")
         ax.yaxis.set_label_coords(-.1, .5)
         ax.yaxis.set_major_formatter(_StrMethodFormatter('{x:,.0f}%'))
 
