@@ -162,9 +162,16 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
     steps = int(_utils._round_to_closest(steps, 5))
     axes[2].set_yticks(_np.arange(retmin, retmax, step=steps))
 
+    pos = axes[2].get_position()
+    axes[2].set_position([pos.x0, pos.y0, pos.width, pos.height * 0.85])
+    axes[2].legend(
+        loc='upper center',
+        bbox_to_anchor=(0.5, 1.35),
+        ncol=3, fancybox=True, shadow=True
+    )
     for ax in axes:
         ax.set_facecolor('white')
-        ax.legend(bbox_to_anchor=(1.3, 0.6))
+        #ax.legend(bbox_to_anchor=(1.3, 0.6))
         ax.yaxis.set_label_coords(-.1, .5)
         ax.yaxis.set_major_formatter(_StrMethodFormatter('{x:,.0f}%'))
 
@@ -242,7 +249,13 @@ def earnings(returns, start_balance=1e5, mode="comp",
         ax.plot(line.index, line, label=token,
                 lw=1 if grayscale else lw)
 
-    ax.legend(bbox_to_anchor=(1.3, 0.6))
+    pos = ax.get_position()
+    ax.set_position([pos.x0, pos.y0, pos.width, pos.height * 0.85])
+    ax.legend(
+        loc='upper center',
+        bbox_to_anchor=(0.5, 1.35),
+        ncol=3, fancybox=True, shadow=True
+    )
     ax.set_ylabel('Value of  ${:,.0f}'.format(start_balance),
                   fontname=fontname, fontweight='bold', fontsize=12)
 
