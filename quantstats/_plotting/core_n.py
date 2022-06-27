@@ -252,13 +252,7 @@ def plot_timeseries(returns, benchmark=None,
     for token, line in returns:
         ax.plot(line, lw=lw, label=token, alpha=alpha)
 
-    pos = ax.get_position()
-    ax.set_position([pos.x0, pos.y0, pos.width, pos.height * 0.85])
-    ax.legend(
-        loc='upper center',
-        bbox_to_anchor=(0.5, 1.35),
-        ncol=3, fancybox=True, shadow=True
-    )
+    leg = ax.legend(ncol=3, fancybox=True, shadow=True)
     mplcursors.cursor(hover=True)
 
     if fill:
