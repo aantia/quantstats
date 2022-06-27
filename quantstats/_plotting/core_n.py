@@ -378,6 +378,7 @@ def plot_histogram(returns, resample="M", bins=20,
         ax.yaxis.set_label_coords(-.1, .5)
 
     ax.legend(fontsize=12)
+    leg = _utils.InteractiveLegend()
 
     # fig.autofmt_xdate()
 
@@ -462,6 +463,7 @@ def plot_rolling_stats(returns, benchmark=None, title="",
     ax.yaxis.set_major_formatter(_FormatStrFormatter('%.2f'))
 
     ax.legend(fontsize=12, loc='lower left', ncol=3)
+    leg = _utils.InteractiveLegend()
     mplcursors.cursor(hover=True)
 
     try:
@@ -546,6 +548,7 @@ def plot_rolling_beta(returns, benchmark,
         ax.yaxis.set_label_coords(-.1, .5)
 
     ax.legend(fontsize=12, loc='lower left')
+    leg = _utils.InteractiveLegend()
     try:
         _plt.subplots_adjust(hspace=0, bottom=0, top=1)
     except Exception:

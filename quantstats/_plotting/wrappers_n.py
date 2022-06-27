@@ -243,6 +243,7 @@ def earnings(returns, start_balance=1e5, mode="comp",
                 lw=1 if grayscale else lw)
 
     ax.legend(ncol=3, loc="best")
+    leg = _utils.InteractiveLegend()
     mplcursors.cursor(hover=True)
     ax.set_ylabel('Value of  ${:,.0f}'.format(start_balance),
                   fontname=fontname, fontweight='bold', fontsize=12)
