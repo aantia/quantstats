@@ -252,7 +252,7 @@ def plot_timeseries(returns, benchmark=None,
     for token, line in returns:
         ax.plot(line, lw=lw, label=token, alpha=alpha)
 
-    leg = ax.legend(loc="best", ncol=2, fancybox=True, shadow=True)
+    leg = ax.legend(bbox_to_anchor =(0.5,-0.27), loc='lower center', ncol=2, fancybox=True, shadow=True)
     mplcursors.cursor(hover=True)
 
     if fill:
