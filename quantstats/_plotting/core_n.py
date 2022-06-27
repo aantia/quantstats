@@ -463,8 +463,6 @@ def plot_rolling_stats(returns, benchmark=None, title="",
 
     ax.legend(fontsize=12)
 
-    # this should make labels work on hover
-    mplcursors.cursor(hover=True)
     try:
         _plt.subplots_adjust(hspace=0, bottom=0, top=1)
     except Exception:
@@ -480,6 +478,10 @@ def plot_rolling_stats(returns, benchmark=None, title="",
             _plt.savefig(**savefig)
         else:
             _plt.savefig(savefig)
+
+    # this should make labels work on hover
+    mplcursors.cursor(hover=True)
+
     if show:
         _plt.show(block=False)
 
