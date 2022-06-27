@@ -461,7 +461,8 @@ def plot_rolling_stats(returns, benchmark=None, title="",
 
     ax.yaxis.set_major_formatter(_FormatStrFormatter('%.2f'))
 
-    ax.legend(fontsize=12, loc='lower left')
+    ax.legend(fontsize=12, loc='lower left', ncol=3)
+    mplcursors.cursor(hover=True)
 
     try:
         _plt.subplots_adjust(hspace=0, bottom=0, top=1)
