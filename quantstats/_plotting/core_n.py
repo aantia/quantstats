@@ -33,6 +33,7 @@ from matplotlib.ticker import (
 import pandas as _pd
 import numpy as _np
 import seaborn as _sns
+import mplcursors
 from .. import (
     stats as _stats, utils as _utils,
 )
@@ -251,7 +252,8 @@ def plot_timeseries(returns, benchmark=None,
     for token, line in returns:
         ax.plot(line, lw=lw, label=token, alpha=alpha)
 
-    ax.legend(loc="best")
+    leg = ax.legend(loc="best", ncol=2, fancybox=True, shadow=True)
+    mplcursors.cursor(hover=True)
 
     if fill:
         for token, line in returns:
@@ -305,6 +307,9 @@ def plot_timeseries(returns, benchmark=None,
             _plt.savefig(**savefig)
         else:
             _plt.savefig(savefig)
+
+    # this should make labels work on hover
+    mplcursors.cursor(hover=True)
 
     if show:
         _plt.show(block=False)
@@ -403,7 +408,6 @@ def plot_histogram(returns, resample="M", bins=20,
     return None
 
 
-# this should work soon
 def plot_rolling_stats(returns, benchmark=None, title="",
                        returns_label="Strategy",
                        hline=None, hlw=None, hlcolor="red", hllabel="",
