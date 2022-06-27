@@ -164,7 +164,7 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
 
     for ax in axes:
         ax.set_facecolor('white')
-        ax.legend(bbox_to_anchor =(0.5,-0.27), loc='lower center')
+        ax.legend(bbox_to_anchor=(1.3, 0.6))
         ax.yaxis.set_label_coords(-.1, .5)
         ax.yaxis.set_major_formatter(_StrMethodFormatter('{x:,.0f}%'))
 
@@ -242,7 +242,7 @@ def earnings(returns, start_balance=1e5, mode="comp",
         ax.plot(line.index, line, label=token,
                 lw=1 if grayscale else lw)
 
-    ax.legend(bbox_to_anchor =(0.5,-0.27), loc='lower center')
+    ax.legend(bbox_to_anchor=(1.3, 0.6))
     ax.set_ylabel('Value of  ${:,.0f}'.format(start_balance),
                   fontname=fontname, fontweight='bold', fontsize=12)
 
