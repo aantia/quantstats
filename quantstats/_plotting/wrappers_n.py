@@ -171,6 +171,11 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
     _plt.subplots_adjust(hspace=0, bottom=0, top=1)
     fig.autofmt_xdate()
 
+    # legend and hovers
+    ax.legend(fontsize=12, loc='lower left', ncol=3)
+    leg = _utils.InteractiveLegend()
+    mplcursors.cursor(hover=True)
+
     try:
         _plt.subplots_adjust(hspace=0)
     except Exception:
@@ -187,7 +192,7 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
             _plt.savefig(savefig)
 
     if show:
-        _plt.show(block=False)
+        _plt.show(block=True)
 
     _plt.close()
 
