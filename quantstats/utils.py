@@ -444,8 +444,10 @@ def _flatten_dataframe(df, set_index=None):
 # this is for making it possible to remove lines by clicking on the legend
 class InteractiveLegend(object):
     def __init__(self, legend=None):
-        if legend == None:
+        if legend is None:
             legend = plt.gca().get_legend()
+            print(self)
+            print(legend)
         self.legend = legend
         self.fig = legend.axes.figure
         self.lookup_artist, self.lookup_handle = self._build_lookups(legend)
