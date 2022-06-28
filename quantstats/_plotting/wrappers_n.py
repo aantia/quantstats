@@ -163,14 +163,14 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
     steps = int(_utils._round_to_closest(steps, 5))
     axes[2].set_yticks(_np.arange(retmin, retmax, step=steps))
 
-    leg = []
+    leg = {}
     for ax in axes:
         ax.set_facecolor('white')
         ax.yaxis.set_label_coords(-.1, .5)
         ax.yaxis.set_major_formatter(_StrMethodFormatter('{x:,.0f}%'))
         #ax.legend(fontsize=10, loc='upper center', bbox_to_anchor=(0, -0.1, 1, 1), ncol=3)
         ax.legend(fontsize=10, loc='best', ncol=3)
-        leg[ax] = _utils.InteractiveLegend()
+        leg[str(ax)] = _utils.InteractiveLegend()
 
     _plt.subplots_adjust(hspace=0, bottom=0, top=1)
     fig.autofmt_xdate()
