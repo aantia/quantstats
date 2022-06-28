@@ -487,7 +487,7 @@ def plot_rolling_stats(returns, benchmark=None, title="",
     mplcursors.cursor(hover=True)
 
     if show:
-        _plt.show(block=False)
+        _plt.show(block=True)
 
     _plt.close()
 
