@@ -170,7 +170,6 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
         ax.yaxis.set_major_formatter(_StrMethodFormatter('{x:,.0f}%'))
         #ax.legend(fontsize=10, loc='upper center', bbox_to_anchor=(0, -0.1, 1, 1), ncol=3)
         ax.legend(fontsize=10, loc='best', ncol=3)
-        leg[str(ax)] = _utils.InteractiveLegend()
 
     _plt.subplots_adjust(hspace=0, bottom=0, top=1)
     fig.autofmt_xdate()
@@ -180,6 +179,8 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
 #    leg = _utils.InteractiveLegend()
     mplcursors.cursor(hover=True)
     #_plt.legend(lines, leg, loc='lower center', bbox_to_anchor=(0, -0.1, 1, 1), bbox_transform=_plt.gcf().transFigure)
+    for ax in axes:
+        leg[str(ax)] = _utils.InteractiveLegend(ax.legend)
 
     try:
         _plt.subplots_adjust(hspace=0)
