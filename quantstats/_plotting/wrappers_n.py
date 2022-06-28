@@ -180,7 +180,7 @@ def snapshot(returns, grayscale=False, figsize=(10, 8),
     #_plt.legend(lines, leg, loc='lower center', bbox_to_anchor=(0, -0.1, 1, 1), bbox_transform=_plt.gcf().transFigure)
     leg = {}
     for ax in axes:
-        leg[str(ax)] = _utils.InteractiveLegend(legend=ax.legend(fontsize=10, loc='lower center', bbox_to_anchor=(0, -0.1, 1, 1), ncol=3, bbox_transform=_plt.gcf().transFigure))
+        leg[str(ax)] = _utils.InteractiveLegend(legend=ax.legend(fontsize=10, loc='center left', bbox_to_anchor=(1, 0.5), ncol=2, bbox_transform=_plt.gcf().transFigure))
 
     try:
         _plt.subplots_adjust(hspace=0)
